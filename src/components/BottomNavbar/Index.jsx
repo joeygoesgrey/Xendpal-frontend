@@ -1,9 +1,8 @@
 import {
-  faBell,
+  faFolderTree,
   faHome,
-  faMessage,
   faSignOut,
-  faUserAlt,
+  faUpload,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useMemo, useState } from "react";
@@ -15,31 +14,25 @@ function Index() {
   const menus = useMemo(
     () => [
       {
-        label: "Home",
+        label: "Dashboard",
         icon: faHome,
         link: "/",
         dis: "translate-x-0",
       },
       {
-        label: "Notifikasi",
-        icon: faBell,
-        link: "/table",
+        label: "My Items",
+        icon: faFolderTree,
+        link: "/items",
         dis: "translate-x-16",
       },
       {
-        label: "Pesan",
-        icon: faMessage,
-        link: "/form",
+        label: "Upload",
+        icon: faUpload,
+        link: "/upload",
         dis: "translate-x-32",
       },
       {
-        label: "Profile",
-        icon: faUserAlt,
-        link: "/profile",
-        dis: "translate-x-48",
-      },
-      {
-        label: "Keluar",
+        label: "Logout",
         icon: faSignOut,
         link: "/auth/login",
         dis: "translate-x-64",

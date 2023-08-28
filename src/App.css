@@ -2,6 +2,10 @@
   text-align: center;
 }
 
+.see{
+  border: red 2px solid;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

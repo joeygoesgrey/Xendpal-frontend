@@ -12,7 +12,7 @@ function MenuList({ menus, ...props }) {
             <SubMenu key={menu.label} menu={menu} props={props} />
           ) : menu.path ? (
             <li key={menu.label} className={``} onClick={props.toggle}>
-              <NavLink to={`${menu.path}`} className="link">
+              <NavLink to={`${menu.path}`} className="link no-underline">
                 {menu.icon && <FontAwesomeIcon icon={menu.icon} />}
                 {menu.label}
               </NavLink>

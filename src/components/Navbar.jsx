@@ -6,7 +6,7 @@ function Navbar(props) {
   return (
     <header className="flex items-center pt-8 pb-6 px-6">
       {/* Header Nav */}
-      <div className="flex-1 flex">
+      <div className="flex-1 flex ">
         <FontAwesomeIcon
           icon={props.icon}
           className="w-8 h-8 pt-1 text-green-700"
@@ -18,7 +18,7 @@ function Navbar(props) {
       </div>
 
       {/* Right Navigation */}
-      <div className="text-sm">
+      <div className="text-sm see">
         <ul className="space-x-8 flex">
           <li className="cursor-pointer font-semibold text-white bg-emerald-800 hover:bg-emerald-700 hover:border-emerald-400 rounded border py-2 px-4">
             <FontAwesomeIcon icon={faGear}></FontAwesomeIcon> Setting
