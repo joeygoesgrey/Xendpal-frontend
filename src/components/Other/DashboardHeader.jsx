@@ -29,7 +29,7 @@ function DashboardHeader({ user, avatar, toggle }) {
           />
         </p>
 
-        <p className="cursor-pointer md:hidden text-2xl" onClick={toggle}>
+        <p className="cursor-pointer md:hidden text-2xl">
           <FontAwesomeIcon icon={faBars} />
         </p>
       </div>

@@ -32,8 +32,9 @@ const FileUploadForm = () => {
   const [file, setFile] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [compressionProgress, setCompressionProgress] = useState(0);
-  const [uploadedFileType, setuploadedfiletype] = React.useState(null);
+  const [uploadedFileType, setuploadedfiletype] = useState(null);
   const [uploadType, setUploadType] = useState("File");
+  const [loading, setLoading] = useState(false);
 
   // GETTING THE USER DATA FROM THE API
   React.useEffect(() => {
@@ -45,6 +46,8 @@ const FileUploadForm = () => {
 
   // THIS FUNCTION DOES ALL THE FILE SETUP AND INITIALISATION BEFORE UPLOADING IT TO THE API
   const handleFileChange = async (e) => {
+    setLoading(true);
+
     const selectedFile = e.target.files[0];
     const mimeType = selectedFile.type;
     setuploadedfiletype(mimeType);
@@ -85,6 +88,7 @@ const FileUploadForm = () => {
 
       // Reset the compression progress state
       setCompressionProgress(0);
+      setLoading(false);
 
       // Set the zipped file
       setFile(new File([zippedFileBlob], `${selectedFile.name}.zip`));
@@ -93,6 +97,7 @@ const FileUploadForm = () => {
 
   // THIS FUNCTION DOES ALL THE FOLDER SETUP AND INITIALISATION BEFORE UPLOADING IT TO THE API
   const handleFolderChange = async (e) => {
+    setLoading(true);
     const selectedFolder = e.target.files; // Assuming the input allows directory selection
     let totalSize = 0;
     let folderName = "MyFolder"; // Initialize with a default name
@@ -115,7 +120,6 @@ const FileUploadForm = () => {
 
     // Initialize a new zip object
     const zip = new JSZip();
-
     // Loop through each file and add it to the zip
     for (let file of selectedFolder) {
       zip.file(file.webkitRelativePath, file);
@@ -134,6 +138,7 @@ const FileUploadForm = () => {
 
     // Reset the compression progress state
     setCompressionProgress(0);
+    setLoading(false);
 
     // Set the zipped folder with the original folder name
     setFile(new File([zippedFolderBlob], `${folderName}.zip`));
@@ -206,7 +211,15 @@ const FileUploadForm = () => {
             File (default)
           </option>
           <option value="Folder">Folder</option>
-        </select>
+        </select>{" "}
+        {loading && (
+          <div className="flex inline-flex ">
+            <span className="loading loading-ring loading-lg mx-4"></span>
+            <strong className="p-2">
+              Hold on while process is ongoing
+            </strong>
+          </div>
+        )}
       </div>
 
       <div className="image-upload-wrap rounded-lg">

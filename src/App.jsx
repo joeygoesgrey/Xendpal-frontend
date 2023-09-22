@@ -8,10 +8,11 @@ import AuthLayout from "./components/Layout/AuthLayout";
 import GuestLayout from "./components/Layout/GuestLayout";
 import Login from "./pages/auth/Login";
 import NotFound from "./pages/NotFound";
+import History from "./pages/History";
 import Form from "./pages/Form";
 import GoogleCallback from "./google_login";
-// import { ApplicationContext } from "./context/ApplicationContext";
 import { token } from "./utils/utils";
+
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -30,7 +31,7 @@ function App() {
         <Route path="/home" element={<Dashboard />} />
         <Route path="/404" element={<NotFound />} />
         <Route path="/upload" element={<Form />} />
-        {/* <Route path="/profile" element={<Blank />} /> */}
+        <Route path="/history" element={<History />} />
       </Route>
       <Route path="/auth" element={<GuestLayout />}>
         <Route path="/auth/login" element={<Login />} />

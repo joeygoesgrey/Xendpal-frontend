@@ -3,6 +3,7 @@ import {
   faHome,
   faSignOut,
   faUpload,
+  faHistory
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useMemo, useState } from "react";
@@ -30,6 +31,12 @@ function Index() {
         icon: faUpload,
         link: "/upload",
         dis: "translate-x-32",
+      },
+      {
+        label: "History",
+        icon: faHistory,
+        link: "/history",
+        dis: "translate-x-48",
       },
       {
         label: "Logout",

@@ -2,7 +2,7 @@ import React from "react";
 import Datatables from "../components/Datatables/Table";
 import TableCell from "../components/Datatables/TableCell";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFolder, faPerson, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faPerson, faTrash } from "@fortawesome/free-solid-svg-icons";
 import {
   API_BASE_URL,
   getUserItems,
@@ -16,34 +16,39 @@ import { ApplicationContext } from "../context/ApplicationContext";
 function UserTable({ loading }) {
   const { userItems, searchTerm, dispatch } =
     React.useContext(ApplicationContext);
-
-  const actionModalRef = React.useRef(null);
-  const deleteModalRef = React.useRef(null);
   const [email, setEmail] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [fileIdToDelete, setFileIdToDelete] = React.useState(null);
+  const [refresh, setRefresh] = React.useState(false);
+  const [showDeleteModal, setShowDeleteModal] = React.useState(false);
+  const [showActionModal, setShowActionModal] = React.useState(false);
 
   const handleDeleteClick = (fileId) => {
-    // Set the file ID somewhere in the component's state
+    // Set the file ID to delete and show the modal
     setFileIdToDelete(fileId);
-
-    // Show the modal
-    deleteModalRef.current.showModal();
+    setShowDeleteModal(true);
   };
 
   const handleActionClick = (fileId) => {
-    // Set the file ID somewhere in the component's state
+    // Set the file ID for the action and show the modal
     setFileIdToDelete(fileId);
+    setShowActionModal(true);
+  };
 
-    // Show the modal
-    actionModalRef.current.showModal();
+  const handleDeleteConfirm = () => {
+    // Perform the delete action here
+    deleteUpload(fileIdToDelete);
+    setRefresh(true);
+    setShowDeleteModal(false);
   };
 
   React.useEffect(() => {
     getUserItems().then((userItemsFromServer) => {
+      console.log(userItems);
       dispatch({ type: "SET_USERITEMS", payload: userItemsFromServer });
+      setRefresh(false); // Reset the refresh state after data is fetched
     });
-  }, [userItems]);
+  }, [refresh]);
 
   const handleAddClick = async (fileId, e) => {
     e.preventDefault();
@@ -53,7 +58,7 @@ function UserTable({ loading }) {
       alert("Please enter a valid email address");
       return;
     }
-    
+
     const payload = {
       recipient_email: email,
       description: description,
@@ -64,8 +69,10 @@ function UserTable({ loading }) {
     const response = await shareUpload(payload);
     alert(response);
 
-    actionModalRef.current.close(); // Close the dialog
+    setRefresh(true);
+    setShowActionModal(false);
   };
+
   const dataHeader = [
     {
       key: "type",
@@ -167,77 +174,121 @@ function UserTable({ loading }) {
                 icon={faTrash}
                 className={`text-sky-700 inline-flex py-1 px-1 cursor-pointer text-sm`}
               />
+              {showDeleteModal && (
+                <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                  <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                    {/*content*/}
+                    <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                      {/*header*/}
+                      <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                        <h3 className="text-3xl font-semibold">
+                          Confirm Deletion
+                        </h3>
+                        <button
+                          className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                          onClick={() => setShowDeleteModal(false)}
+                        >
+                          <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                            ×
+                          </span>
+                        </button>
+                      </div>
+                      {/*body*/}
+                      <div className="relative p-6 flex-auto">
+                        <p className="mt-4 mb-1 text-slate-500 text-lg leading-relaxed">
+                          Are you sure you wanna permanently delete this?
+                        </p>
+                        <em className="text-center text-red-500 text-sm  ">
+                          Shared items cannot be deleted!
+                        </em>
+                      </div>
 
-              <dialog id="my_modal_3" ref={deleteModalRef} className="modal">
-                <form method="dialog" className="modal-box">
-                  <button className="btn btn-sm btn-circle btn-ghost outline-none absolute right-2 top-2">
-                    ✕
-                  </button>
-                  <h3 className="font-bold text-lg">Deletion Confirmation</h3>
-                  <p className="mt-4 mb-2">
-                    Are you sure you wanna permanently delete this?
-                  </p>
-
-                  <div className="mt-3 flex justify-end items-end">
-                    <button
-                      className="btn bg-green-400 px-5"
-                      type="submit"
-                      onClick={() => {
-                        deleteUpload(fileIdToDelete);
-                      }}
-                    >
-                      yes
-                    </button>
-                  </div>
-                </form>
-              </dialog>
-
-              <dialog id="my_modal_1" ref={actionModalRef} className="modal">
-                <form method="dialog" className="modal-box">
-                  <div className="flex flex-col justify-center items-center p-0 m-0">
-                    <div className="text-sm text-lg mb-3 flex flex-col text-center">
-                      Add Email to share item with
-                      <small>
-                        Email user will have read permissions by default
-                      </small>
-                    </div>
-
-                    <div className="form-control w-full max-w-xs ">
-                      <input
-                        type="text"
-                        placeholder="Email"
-                        className="input border-emerald-200 border w-full max-w-xs mb-6"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                      />
-
-                      <textarea
-                        className="textarea border-emerald-200 border h-24"
-                        placeholder="Leave a description(optional)"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                      ></textarea>
-                      <label className="label flex justify-end">
-                        <span className="label-text-alt text-gray-300">
-                          {" "}
-                          Max 100 words{" "}
-                        </span>
-                      </label>
-                    </div>
-
-                    <div className="modal-action">
-                      <span
-                        className="btn"
-                        onClick={(e) => handleAddClick(fileIdToDelete, e)}
-                      >
-                        Add
-                      </span>
-                      {/* if there is a button in form, it will close the modal */}
-                      <button className="btn">Close</button>
+                      {/*footer*/}
+                      <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                        <button
+                          className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                          type="button"
+                          onClick={() => setShowDeleteModal(false)}
+                        >
+                          Close
+                        </button>
+                        <button
+                          className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                          type="button"
+                          onClick={handleDeleteConfirm}
+                        >
+                          yes
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </form>
-              </dialog>
+                </div>
+              )}
+
+              {showActionModal && (
+                <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                  <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                    {/*content*/}
+                    <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                      {/*header*/}
+                      <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                        <h3 className="text-3xl font-semibold">
+                          File Share through Email
+                        </h3>
+                        <button
+                          className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                          onClick={() => setShowDeleteModal(false)}
+                        >
+                          <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                            ×
+                          </span>
+                        </button>
+                      </div>
+                      {/*body*/}
+                      {/* <div className="relative p-6 flex-auto"> */}
+                      <div className="form-control w-full max-w-xs md:p-7">
+                        <input
+                          type="text"
+                          placeholder="Email"
+                          className="input border-emerald-200 border w-full max-w-xs mb-6"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                        ></input>
+                        <textarea
+                          className="textarea border-emerald-200 border h-24"
+                          placeholder="Leave a description(optional)"
+                          value={description}
+                          onChange={(e) => setDescription(e.target.value)}
+                        ></textarea>
+                        <label className="label flex justify-end">
+                          <span className="label-text-alt text-gray-300">
+                            {" "}
+                            Max 100 words{" "}
+                          </span>
+                        </label>
+                      </div>
+                      {/* </div> */}
+                      {/*footer*/}
+                      <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                        <button
+                          className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                          type="button"
+                          onClick={() => setShowActionModal(false)}
+                        >
+                          Close
+                        </button>
+                        <button
+                          className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                          type="button"
+                          onClick={(e) => handleAddClick(fileIdToDelete, e)}
+                        >
+                          Add
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </TableCell>
           </tr>
         ))}

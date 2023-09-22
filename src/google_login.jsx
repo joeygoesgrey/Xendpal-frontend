@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_BASE_URL, encrypt, storeDataInSession } from "./utils/utils";
-import { ApplicationContext } from "./context/ApplicationContext";
 
 const GoogleCallback = () => {
-  const { dispatch } = React.useContext(ApplicationContext);
   const navigate = useNavigate();
   const handleLogin = async () => {
     try {
@@ -26,11 +24,9 @@ const GoogleCallback = () => {
 
       const someFunction = async () => {
         if (data.access_token) {
-          dispatch({ type: "SET_ISUSERLOGGEDIN", payload: true });
-
           await new Promise((resolve) => setTimeout(resolve, 3000));
 
-          window.location.href = "/home"; // This will cause a full page reload
+          window.location.href = "/home"; 
         } else {
           navigate("/auth/login");
         }

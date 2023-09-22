@@ -8,6 +8,7 @@ const INITIAL_STATE = {
     userItems: null,
     refreshUserItems: false,
     searchTerm: "",
+    websocketmessage: null,
 }
 
 export const ApplicationContext = createContext(INITIAL_STATE);
@@ -24,7 +25,8 @@ const ApplicationReducer = (state, action) => {
             return { ...state, refreshUserItems: action.payload };
         case 'SET_SEARCHTERM':
             return { ...state, searchTerm: action.payload };
-
+        case 'SET_WEBSOCKETMESSAGE':
+            return { ...state, websocketmessage: action.payload };
         default:
             return state;
     }
@@ -42,6 +44,8 @@ export const ApplicationContextProvider = ({ children }) => {
             userItems: state.userItems,
             refreshUserItems: state.refreshUserItems,
             searchTerm: state.searchTerm,
+            websocketmessage: state.websocketmessage,
+
             dispatch
         }}>
             {children}

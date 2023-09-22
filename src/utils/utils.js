@@ -70,7 +70,6 @@ async function clearAllStorages() {
 }
 
 
-
 async function retrieveDataFromSession(key = 'access_token') {
     try {
         // Get the data from local storage
@@ -157,7 +156,7 @@ const deleteUpload = async (uploadId) => {
             throw new Error('An error occurred while deleting the folder');
         }
 
-        const data = await response.json();
+        // const data = await response.json();
     } catch (error) {
         console.error(error);
     }
@@ -243,6 +242,29 @@ const shareUpload = async (payload) => {
 
 
 
+async function fetchUserHistory() {
+    try {
+        const apiUrl = `${API_BASE_URL}/user/history`; // Replace with your API endpoint URL
+
+        // Set up headers with the authentication token if required
+        const headers = {
+            'Authorization': `Bearer ${token}`
+        };
+
+        const response = await axios.get(apiUrl, { headers });
+
+        // Check if the response status is 200 (OK)
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            throw new Error(`Request failed with status ${response.status}`);
+        }
+    } catch (error) {
+        console.error('Error fetching user history:', error.message);
+        throw error; // You can handle the error as needed in your application
+    }
+}
+
 const getyearlyUsage = async () => {
     try {
         // Replace with your actual API URL and endpoint
@@ -274,6 +296,7 @@ export {
     getyearlyUsage,
     deleteUpload,
     bytesToMBorGB,
+    fetchUserHistory,
     bytesToGB,
     getuserinfo,
     storeDataInSession,
