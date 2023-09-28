@@ -3,7 +3,7 @@ import CryptoJS from 'crypto-js';
 
 import axios from 'axios';
 
-const API_BASE_URL = 'http://127.0.0.1:8080'; // Your API base URL
+const API_BASE_URL = 'http://169.255.58.22'; // Your API base URL
 const codeKey = process.env.REACT_APP_CODE_KEY;
 
 async function getNewAccessToken(refreshToken) {
