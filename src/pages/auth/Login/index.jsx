@@ -170,7 +170,7 @@ function LoginIndex() {
 
               {/* Social Button */}
               <div className="flex justify-between w-full mt-6">
-                <a href={`${API_BASE_URL}/user/`} className="w-full">
+                <a href={`${API_BASE_URL}/user/google_redirect`} className="w-full">
                   <button
                     disabled={loading}
                     type="submit"
