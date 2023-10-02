@@ -2,7 +2,7 @@ import React from "react";
 import Datatables from "../components/Datatables/Table";
 import TableCell from "../components/Datatables/TableCell";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPerson, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faDownload, faPerson, faTrash } from "@fortawesome/free-solid-svg-icons";
 import {
   API_BASE_URL,
   getUserItems,
@@ -44,7 +44,6 @@ function UserTable({ loading }) {
 
   React.useEffect(() => {
     getUserItems().then((userItemsFromServer) => {
-      console.log(userItems);
       dispatch({ type: "SET_USERITEMS", payload: userItemsFromServer });
       setRefresh(false); // Reset the refresh state after data is fetched
     });
@@ -149,7 +148,10 @@ function UserTable({ loading }) {
                 className="inline-flex items-center"
               >
                 <small className="truncate">
-                  {" "}
+                  <FontAwesomeIcon
+                    icon={faDownload}
+                    className={`text-emerald-500 inline-flex py-1 px-1 cursor-pointer text-sm`}
+                  />{" "}
                   {highlightText(file.name, searchTerm)}
                 </small>
               </a>
