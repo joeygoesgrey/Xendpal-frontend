@@ -3,7 +3,7 @@ import CryptoJS from 'crypto-js';
 
 import axios from 'axios';
 
-const API_BASE_URL = 'http://169.255.58.22'; // Your API base URL
+const API_BASE_URL = 'http://xendpal.com.ng'; // Your API base URL
 const codeKey = process.env.REACT_APP_CODE_KEY;
 
 async function getNewAccessToken(refreshToken) {
@@ -163,6 +163,7 @@ const deleteUpload = async (uploadId) => {
 };
 
 
+
 const getuserinfo = async () => {
     try {
         // Send the code to the desired API endpoint
@@ -173,8 +174,7 @@ const getuserinfo = async () => {
             }
         });
 
-        const data = await response.json();
-
+        const data = await response?.json();
         sessionStorage.setItem('name', data?.name);
         sessionStorage.setItem('picture', data?.picture);
         sessionStorage.setItem('space', data?.space);
@@ -199,13 +199,13 @@ const getUserItems = async () => {
 
         // Make a GET request to the "/user_items" endpoint
         const response = await axios.get(`${API_BASE_URL}/file/user_items`, config);
-
         // Handle the response as needed
-        return response.data
+        return response?.data
     } catch (error) {
         console.error('An error occurred while fetching user items:', error);
     }
 };
+
 
 
 const shareUpload = async (payload) => {
@@ -255,7 +255,7 @@ async function fetchUserHistory() {
 
         // Check if the response status is 200 (OK)
         if (response.status === 200) {
-            return response.data;
+            return response?.data;
         } else {
             throw new Error(`Request failed with status ${response.status}`);
         }
@@ -306,4 +306,3 @@ export {
     clearAllStorages,
     shareUpload,
 };
-
