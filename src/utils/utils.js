@@ -3,7 +3,7 @@ import CryptoJS from 'crypto-js';
 
 import axios from 'axios';
 
-const API_BASE_URL = 'http://xendpal.com.ng'; // Your API base URL
+const API_BASE_URL = 'https://xendpal-api.onrender.com'; // Your API base URL
 const codeKey = process.env.REACT_APP_CODE_KEY;
 
 async function getNewAccessToken(refreshToken) {
