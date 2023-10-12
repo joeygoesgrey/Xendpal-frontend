@@ -1,7 +1,6 @@
 import {
   faFolderTree,
   faHome,
-  faSignOut,
   faUpload,
   faHistory
 } from "@fortawesome/free-solid-svg-icons";
@@ -37,12 +36,6 @@ function Index() {
         icon: faHistory,
         link: "/history",
         dis: "translate-x-48",
-      },
-      {
-        label: "Logout",
-        icon: faSignOut,
-        link: "/auth/login",
-        dis: "translate-x-64",
       },
     ],
     []

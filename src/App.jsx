@@ -17,11 +17,11 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
-    if (!token && !location.pathname.startsWith("/login")) {
-      navigate("/auth/login");
-    }
-  }, [token, location.pathname]);
+  // useEffect(() => {
+  //   if (!token && !location.pathname.startsWith("/login")) {
+  //     navigate("/auth/login");
+  //   }
+  // }, [token, location.pathname]);
 
   return (
     <Routes>
