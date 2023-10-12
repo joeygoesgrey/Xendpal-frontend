@@ -2,7 +2,11 @@ import React from "react";
 import Datatables from "../components/Datatables/Table";
 import TableCell from "../components/Datatables/TableCell";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDownload, faPerson, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faDownload,
+  faPerson,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import {
   API_BASE_URL,
   getUserItems,
@@ -169,20 +173,12 @@ function UserTable({ loading }) {
               <FontAwesomeIcon
                 onClick={() => handleActionClick(file.id)}
                 icon={faPerson}
-<<<<<<< HEAD
-                className={`text-sky-700 inline-flex py-1 px-2 cursor-pointer text-sm`}
-=======
                 className={`text-sky-700 inline-flex py-1 px-3 cursor-pointer text-sm`}
->>>>>>> 2a18cea (made some changes to the ui)
               />
               <FontAwesomeIcon
                 onClick={() => handleDeleteClick(file.id)}
                 icon={faTrash}
-<<<<<<< HEAD
-                className={`text-sky-700 inline-flex py-1 px-2 cursor-pointer text-sm`}
-=======
                 className={`text-sky-700 inline-flex py-1 px-3 cursor-pointer text-sm`}
->>>>>>> 2a18cea (made some changes to the ui)
               />
               {showDeleteModal && (
                 <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
