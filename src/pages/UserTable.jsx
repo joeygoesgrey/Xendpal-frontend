@@ -169,12 +169,12 @@ function UserTable({ loading }) {
               <FontAwesomeIcon
                 onClick={() => handleActionClick(file.id)}
                 icon={faPerson}
-                className={`text-sky-700 inline-flex py-1 px-1 cursor-pointer text-sm`}
+                className={`text-sky-700 inline-flex py-1 px-2 cursor-pointer text-sm`}
               />
               <FontAwesomeIcon
                 onClick={() => handleDeleteClick(file.id)}
                 icon={faTrash}
-                className={`text-sky-700 inline-flex py-1 px-1 cursor-pointer text-sm`}
+                className={`text-sky-700 inline-flex py-1 px-2 cursor-pointer text-sm`}
               />
               {showDeleteModal && (
                 <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
