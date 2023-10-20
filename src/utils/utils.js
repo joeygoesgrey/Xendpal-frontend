@@ -153,7 +153,7 @@ const deleteUpload = async (uploadId) => {
         });
 
         if (!response.ok) {
-            throw new Error('An error occurred while deleting the folder');
+            return ("Shared items cannot be deleted")
         }
 
         // const data = await response.json();

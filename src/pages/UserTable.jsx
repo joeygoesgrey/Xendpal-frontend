@@ -39,11 +39,22 @@ function UserTable({ loading }) {
     setShowActionModal(true);
   };
 
-  const handleDeleteConfirm = () => {
-    // Perform the delete action here
-    deleteUpload(fileIdToDelete);
-    setRefresh(true);
-    setShowDeleteModal(false);
+  const handleDeleteConfirm = async () => {
+    try {
+      // Await the deleteUpload function and capture the returned value
+      const result = await deleteUpload(fileIdToDelete);
+
+      // Now you can use the returned value
+      if (result) {
+        alert(result); // Logs: "Shared items cannot be deleted"
+      } else {
+        // If there was no error, refresh the UI and close the delete modal
+        setRefresh(true);
+        setShowDeleteModal(false);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   React.useEffect(() => {
