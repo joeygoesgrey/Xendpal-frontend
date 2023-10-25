@@ -1,5 +1,4 @@
 # Xendpal-frontend
-## Installation
 Github repo to the  backend api:
 
 ```bash
